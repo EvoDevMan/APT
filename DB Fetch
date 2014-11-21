@@ -1,0 +1,45 @@
+<?php
+$records=mysql_query($sql);
+// set database server access variables:
+$host = "localhost";
+$user = "root";
+$pass = "Ontothenext1!";
+$db = "apt_tool";
+
+// open connection
+$connection = mysql_connect($host, $user, $pass) or die ("Unable to connect!");
+
+// select database
+mysql_select_db($db) or die ("Unable to select database!");
+
+// create query
+$query = "SELECT * FROM APT";
+
+// execute query
+$result = mysql_query($query) or die ("Error in query: $query. ".mysql_error());
+
+define('COLS', 3); // number of columns
+$col = 0; // number of the last column filled
+echo '<table border="5px">';
+echo '<tr>'; // start first row
+
+while ($rows = mysql_fetch_array($result))
+{ $col++;
+  if ($col == COLS) // have filled the last row
+  { $col = 1;
+    echo '</tr><tr>'; // start a new one
+  }
+  echo '<td>', '<center>', '<img src="', $rows[7], '" width="150px"/>', '<br>', $rows[2],'<br>', $rows[0],'<br>', $rows[3],'<br>', $rows[4],'<br>', $rows[8], '</center>', '</td>';
+  print ($col);
+}
+
+echo '</tr>'; // end last row
+echo "</table>";
+
+// free result set memory
+mysql_free_result($result);
+
+// close connection
+mysql_close($connection);
+
+?>
